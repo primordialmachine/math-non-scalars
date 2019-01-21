@@ -1,0 +1,179 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Primordial Machine's Math Non Scalars Library
+% Copyright (C) 2017-2019 Michael Heilmann
+%
+% This software is provided 'as-is', without any express or implied warranty.
+% In no event will the authors be held liable for any damages arising from the
+% use of this software.
+%
+% Permission is granted to anyone to use this software for any purpose,
+% including commercial applications, and to alter it and redistribute it
+% freely, subject to the following restrictions:
+%
+% 1. The origin of this software must not be misrepresented;
+%    you must not claim that you wrote the original software.
+%    If you use this software in a product, an acknowledgment
+%    in the product documentation would be appreciated but is not required.
+%
+% 2. Altered source versions must be plainly marked as such,
+%    and must not be misrepresented as being the original software.
+%
+% 3. This notice may not be removed or altered from any source distribution.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[oneside]{book}
+
+\input{common}
+
+\SetOrganization{Primordial Machine's}
+\SetLibraryName{Math Non Scalars Library}
+
+\SetLibraryIncludeFileName{include.hpp}
+\SetLibraryIncludesDirectoryPath{primordialmachine/math-non-scalars/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/includes}
+
+\SetLibraryIncludeDirectiveFilePath{primordialmachine/math/non\_scalars/include.hpp}
+
+\SetLibraryStaticLibrariesDirectoryPath{primordialmachine/math/non-scalars/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
+\SetLibraryStaticLibraryFileName{math-non-scalars.lib}
+
+\SetLibraryVersion{v1.0}
+\SetLibraryRepository{https://github.com/primordialmachine/math-non-scalars}
+\SetAuthor{Michael Heilmann}
+\SetEmail{michaelheilmann@primordialmachine.com}
+
+\SetDocumentType{User Manual}
+
+\usepackage[listings,theorems]{tcolorbox}
+\tcbset{before={\par\medskip\pagebreak[0]\noindent},after={\par\medskip}}%
+\newcounter{example}[section]
+
+\begin{document}
+
+\frontmatter
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\pagenumbering{gobble}
+
+\mainmatter
+
+\chapter{Synopsis}
+C++ 17 library providing concepts and traits related to mathematical non-scalar types.
+The library is made available publicly on
+\href{\GetLibraryRepository}{Github}
+under the
+\href{\GetLibraryRepository/blob/master/LICENSE}{MIT License}.
+
+\chapter{Limitations and Restrictions}
+The library officially only supports Visual Studio 2017 and Windows 10.
+
+\chapter{Introductory example}
+\textit{\color{orange}This library does not provide any examples yet.}
+%Examples are located in the \href{\GetLibraryRepository/blob/master/examples}{examples} directory.
+
+\input{building_visual_studio_2017}
+
+\chapter{Library Interface Documentation}
+
+\section{\texttt{namespace primordialmachine}}
+The namespace this library is adding its declarations/definitions to.
+The added namespace elements are documented below.
+
+\section{\textit{Math.NonScalar} (type concept)}
+A \textit{Math.NonScalar} type is a fixed size container for   \textit{Math.Scalar}
+type elements which can be accessed for reading an writing using different indexing
+schemes. Matrices, points, and vectors are examples of      \textit{Math.NonScalar}
+types. 
+
+\subsection{Element type}
+The \textit{Math.Scalar} type $E$ of the elements of a \textit{Math.NonScalar} type
+$T$ can be obtained by the member type definition\newline
+\texttt{element\_type\textlangle $T$\textrangle::type}\newline
+or the type definition\newline
+\texttt{element\_type\_t\textlangle$T$\textrangle}\newline
+
+\subsection{Number of elements}
+The number of elements of a \textit{Math.NonScalar} type $T$ can be obtained by
+the constant expression \textit{size\_t} member constant\newline
+\texttt{number\_of\_elements\textlangle $T$\textrangle::value}\newline
+or by the constant expression \textit{size\_t} constant\newline
+\texttt{number\_of\_elements\_v\textlangle $T$\textrangle}\newline
+
+\subsection{Degenerate and non-degenerate}
+A \textit{Math.NonScalar} type $T$ called \textit{degenerate} if and only if it has zero elements.
+Otherwise it is called \textit{non-degenerate}.
+
+If a \textit{Math.NonScalar} type $T$ is degenerate can be obtained by
+the constant expression \textit{bool} member constant\newline
+\texttt{is\_degenerate\textlangle $T$\textrangle::value}\newline
+or by the constant expression \textit{bool} constant\newline
+\texttt{is\_degenerate\_v\textlangle $T$\textrangle}\newline
+
+If a \textit{Math.NonScalar} type $T$ is non-degenerate can be obtained by
+the constant expression \textit{bool} member constant\newline
+\texttt{is\_non\_degenerate\textlangle $T$\textrangle::value}\newline
+or by the constant expression \textit{bool} constant\newline
+\texttt{is\_non\_degenerate\_v\textlangle $T$\textrangle}\newline
+
+\subsection{Dimensionality $=0$}
+A \textit{Math.NonScalar} of dimensionality $=0$ is a type $T$
+which provides support for the following   operations:\newline
+
+%BEGIN OPERATIONS%
+\texttt{$T$(const $T$\& other)}\textit{(copy constructor)}\newline
+\texttt{$T$\& operator=(const $T$\& other)}\textit{(copy assignment operator)}\newline
+%END OPERATIONS%
+
+\subsection{Dimensionality $=1$}
+A \textit{Math.NonScalar} of dimensionality $=1$ provides the     same
+operations as a \textit{Math.NonScalar} type of   dimensionality $=0$.
+In addition, it provides support for the following operations:\newline
+
+%BEGIN OPERATIONS%
+\texttt{const element\_type\& operator()(size\_t i) const}\textit{(constant unary indexing operator})\newline
+\texttt{element\_type\& operator()(size\_t i)} \textit{(unary indexing operator)}\newline
+%END OPERATIONS%
+
+\subsection{Dimensionality $>1$}
+A \textit{Math.NonScalar} of dimensionality $>1$ provides the     same
+operations as a \textit{Math.NonScalar} type of   dimensionality $=1$.
+In addition, it provides support for the following operations:\newline
+
+%BEGIN OPERATIONS%
+\texttt{const element\_type\& operator()(\textit{IndexList}) const} \textit{(constant $n > 1$-ary indexing operator)}\newline
+\texttt{element\_type\& operator()(\textit{IndexList})} \textit{($n > 1$-ary indexing operator)}\newline
+%END OPERATIONS%
+
+where \texttt{\textit{IndexList}} are $n$ \texttt{size\_t} values
+denoting indices and where $n$ is the dimensionality of      $T$.\newline
+
+Every \textit{Math.NonScalar} of dimensionality $n > 1$     must define a
+bijection between the indices $i$ passed to the unary \texttt{operator()}
+and the indices $i_0,\ldots,i_{n-1}$ passed to the            $n > 1$-ary
+\texttt{operator()}.\newline
+
+\begin{tcolorbox}[title=Example]
+Row-major $N \times M$ matrices where $N$ is the   number of
+rows and $M$ is the number of columns can fulfil         the
+\textit{Math.NonScalar} type concept of  dimensionality $2$:
+First, provide th $2$ index operators such that the first
+index denotes the row index and the second index      the
+column index.
+Second, provide the $1$ index   operators and define the
+bijection between an index $i$ passed to the $1$   index
+operator and the first index $j$   and the second index:
+A possible bijection can be defined in terms of a    row
+major mapping as $k$ as $i / N + i\mod M= j \cdot M +k$.
+\end{tcolorbox}
+
+\subsection{Number of elements}
+The 
+A \textit{Math.NonScalar} type 
+
+\end{document}
