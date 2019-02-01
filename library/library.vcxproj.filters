@@ -32,6 +32,60 @@
     <ClInclude Include="includes\primordialmachine\math\non_scalars\is_non_scalar.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\make_element_indices.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\arithmetic_functors_helpers.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\relational_functors_helpers.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_plus_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_minus_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_star_functor_helpers_a_s.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_slash_functor_helpers_a_s.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_star_functor_helpers_s_a.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\unary_minus_functor_helpers_a.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\unary_plus_functor_helpers_a.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\star_assignment_functor_helpers_a_s.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\slash_assignment_functor_helpers_a_s.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\plus_assignment_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\minus_assignment_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_slash_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\binary_star_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\star_assignment_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\non_scalars\slash_assignment_functor_helpers_a_b.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\primordialmachine\math\non_scalars\include.cpp">
