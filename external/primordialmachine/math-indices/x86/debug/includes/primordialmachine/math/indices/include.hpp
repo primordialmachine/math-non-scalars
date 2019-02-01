@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Functors Library
-// Copyright (C) 2017-2019 Michael Heilmann
+// Primordial Machine's Math Indices Library
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -25,11 +25,5 @@
 
 #pragma once
 
-#include "primordialmachine/functors/arity.hpp"
-#include "primordialmachine/functors/common_type.hpp"
-#include "primordialmachine/functors/enable_if.hpp"
-#include "primordialmachine/functors/integer_sequence.hpp"
-#include "primordialmachine/functors/integral_constant.hpp"
-#include "primordialmachine/functors/is_floating_point.hpp"
-#include "primordialmachine/functors/is_same.hpp"
-#include "primordialmachine/functors/result_type.hpp"
+#include "primordialmachine/math/indices/index_1.hpp"
+#include "primordialmachine/math/indices/index_2.hpp"

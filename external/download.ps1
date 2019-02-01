@@ -24,5 +24,6 @@ function Download([String]$PackageName,[String]$Version){
   }
 }
 
-Download -PackageName 'functors' -Version '1.0'
+Download -PackageName 'functors' -Version '1.3'
 Download -PackageName 'math-scalars' -Version '1.1'
+Download -PackageName 'math-indices' -Version '1.1'

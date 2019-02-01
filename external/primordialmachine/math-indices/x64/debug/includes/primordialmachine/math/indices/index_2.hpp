@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Functors Library
-// Copyright (C) 2017-2019 Michael Heilmann
+// Primordial Machine's Math Indices Library
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -25,11 +25,23 @@
 
 #pragma once
 
-#include "primordialmachine/functors/arity.hpp"
-#include "primordialmachine/functors/common_type.hpp"
-#include "primordialmachine/functors/enable_if.hpp"
-#include "primordialmachine/functors/integer_sequence.hpp"
-#include "primordialmachine/functors/integral_constant.hpp"
-#include "primordialmachine/functors/is_floating_point.hpp"
-#include "primordialmachine/functors/is_same.hpp"
-#include "primordialmachine/functors/result_type.hpp"
+namespace primordialmachine {
+
+struct index_2
+{
+private:
+  size_t m_i;
+  size_t m_j;
+
+public:
+  constexpr index_2(size_t i, size_t j) noexcept
+    : m_i(i)
+    , m_j(j)
+  {}
+  constexpr const size_t& i() const noexcept { return m_i; }
+  constexpr size_t& i() noexcept { return m_i; }
+  constexpr const size_t& j() const noexcept { return m_j; }
+  constexpr size_t& j() noexcept { return m_j; }
+}; // struct index_2
+
+} // namespace primordialmachine
