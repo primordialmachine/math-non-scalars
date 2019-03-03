@@ -25,43 +25,59 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 
-template<typename A>
-struct default_elementwise_unary_plus_functor<
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A>>>
+// The case of a + b where a and b are of type T.
+// T is a degenerate non-scalar type.
+template<typename T>
+struct default_elementwise_binary_plus_functor<
+  T,
+  T,
+  enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
 {
-  using operand_type = A;
-  using result_type = A;
+  using left_operand_type = T;
+  
+  using right_operand_type = T;
+  
+  using result_type = T;
 
-  result_type operator()(const operand_type& a) const
+  result_type operator()(const left_operand_type& a,
+                         const right_operand_type& b) const
   {
     return result_type();
   }
+}; // struct default_elementwise_binary_plus_functor
 
-}; // struct default_elementwise_unary_plus_functor
-
-template<typename A>
-struct default_elementwise_unary_plus_functor<
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A>>>
+// The case of a + b where a and b are of type T.
+// T is a non-degenerate non-scalar type.
+template<typename T>
+struct default_elementwise_binary_plus_functor<
+  T,
+  T,
+  enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
 {
-  using operand_type = A;
-  using result_type = A;
+  using left_operand_type = T;
 
-  result_type operator()(const operand_type& a) const
+  using right_operand_type = T;
+
+  using result_type = T;
+
+  result_type operator()(const left_operand_type& a,
+                         const right_operand_type& b) const
   {
-    return impl(a, make_element_indices<A>());
+    return impl(a, b, make_element_indices<T>());
   }
 
   template<size_t... N>
-  constexpr auto impl(const operand_type& a, index_sequence<N...>) const
+  constexpr auto impl(const left_operand_type& a,
+                      const right_operand_type& b,
+                      index_sequence<N...>) const
   {
-    return result_type{ (+a(N))... };
+    return result_type{ (a(N) + b(N))... };
   }
-}; // struct default_elementwise_unary_plus_functor
+
+}; // struct default_elementwise_binary_plus_functor
 
 } // namespace primordialmachine

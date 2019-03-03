@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Math Non Scalars Library
-// Copyright (c) 2019 Michael Heilmann
+// Primordial Machine's Math Indices Library
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -23,16 +23,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "primordialmachine/math/non_scalars/include.hpp"
+#include "gtest/gtest.h"
 
-#include "primordialmachine/functors/include.hpp"
-#include "primordialmachine/math/non_scalars/to_index_1.hpp"
-#include "primordialmachine/math/non_scalars/to_index_2.hpp"
-#include "primordialmachine/math/non_scalars/number_of_elements.hpp"
-
-namespace primordialmachine {
-
-template<typename T>
-using make_element_indices = make_index_sequence<number_of_elements_v<T>>;
-
-} // namespace primordialmachine
+TEST(math_indices_tests, index_1_tests)
+{ /*Intentionally empty for now.*/}

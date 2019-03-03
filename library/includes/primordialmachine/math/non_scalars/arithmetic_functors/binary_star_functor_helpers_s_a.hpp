@@ -25,31 +25,62 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 
-// The case of a * s where a is of type A and s is of type S.
-// A is a non-scalar type with element type S.
+// The case of s * a where s is of type S and a is of type A.
 // S is a scalar type.
-// This case is reduced to the case s * a.
-template<typename A, typename S>
+// A is a degenerate non-scalar type with element type S.
+template<typename S, typename A>
 struct default_elementwise_binary_star_functor<
-  A,
   S,
-  enable_if_t<is_non_scalar_v<A> && is_scalar_v<S> &&
+  A,
+  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A> && is_scalar_v<S> &&
               is_same_v<element_type_t<A>, S>>>
 {
-  using left_operand_type = A;
+  using left_operand_type = S;
 
-  using right_operand_type = S;
+  using right_operand_type = A;
 
   using result_type = A;
 
   result_type operator()(const left_operand_type& a,
                          const right_operand_type& s) const
   {
-    return s * a;
+    return result_type();
+  }
+
+}; // struct default_elementwise_binary_star_functor
+
+// The case of s * a where s is of type S and a is of type A.
+// S is a scalar type.
+// A is a non-degenerate non-scalar type with element type S.
+template<typename A, typename S>
+struct default_elementwise_binary_star_functor<
+  S,
+  A,
+  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A> && is_scalar_v<S> &&
+              is_same_v<element_type_t<A>, S>>>
+{
+  using left_operand_type = S;
+
+  using right_operand_type = A;
+
+  using result_type = A;
+
+  result_type operator()(const left_operand_type& s,
+                         const right_operand_type& a) const
+  {
+    return impl(s, a, make_element_indices<A>());
+  }
+
+  template<size_t... N>
+  constexpr auto impl(const left_operand_type& s,
+                      const right_operand_type& a,
+                      index_sequence<N...>) const
+  {
+    return result_type{ (s * a(N))... };
   }
 
 }; // struct default_elementwise_binary_star_functor

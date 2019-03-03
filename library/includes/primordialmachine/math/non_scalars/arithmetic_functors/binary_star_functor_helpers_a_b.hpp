@@ -25,62 +25,66 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
+// You can use the following structs for matrices and vectors to ease the
+// implementation of the binary star operations.
+// For example, the implementation of matrix binary star operation using
+// these structs reduces to:
+// clang-format off
+// template<typename M>
+// struct binary_star_functor<M, M, enable_if_t<is_matrix_v<M> ...>>
+// : public default_elementwise_binary_star_functor<M, M>
+// {};
+// clang-format on
 
-// The case of s * a where s is of type S and a is of type A.
-// S is a scalar type.
-// A is a degenerate non-scalar type with element type S.
-template<typename S, typename A>
+// The degenerated case.
+template<typename T>
 struct default_elementwise_binary_star_functor<
-  S,
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A> && is_scalar_v<S> &&
-              is_same_v<element_type_t<A>, S>>>
+  T,
+  T,
+  enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
 {
-  using left_operand_type = S;
+  using left_operand_type = T;
 
-  using right_operand_type = A;
+  using right_operand_type = T;
 
-  using result_type = A;
+  using result_type = T;
 
   result_type operator()(const left_operand_type& a,
-                         const right_operand_type& s) const
+                         const right_operand_type& b) const
   {
     return result_type();
   }
 
 }; // struct default_elementwise_binary_star_functor
 
-// The case of s * a where s is of type S and a is of type A.
-// S is a scalar type.
-// A is a non-degenerate non-scalar type with element type S.
-template<typename A, typename S>
+// The non-degenerated case.
+template<typename T>
 struct default_elementwise_binary_star_functor<
-  S,
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A> && is_scalar_v<S> &&
-              is_same_v<element_type_t<A>, S>>>
+  T,
+  T,
+  enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
 {
-  using left_operand_type = S;
+  using left_operand_type = T;
 
-  using right_operand_type = A;
+  using right_operand_type = T;
 
-  using result_type = A;
+  using result_type = T;
 
-  result_type operator()(const left_operand_type& s,
-                         const right_operand_type& a) const
+  result_type operator()(const left_operand_type& a,
+                         const right_operand_type& b) const
   {
-    return impl(s, a, make_element_indices<A>());
+    return impl(a, b, make_element_indices<T>());
   }
 
   template<size_t... N>
-  constexpr auto impl(const left_operand_type& s,
-                      const right_operand_type& a,
+  constexpr auto impl(const left_operand_type& a,
+                      const right_operand_type& b,
                       index_sequence<N...>) const
   {
-    return result_type{ (s * a(N))... };
+    return result_type{ (a(N) * b(N))... };
   }
 
 }; // struct default_elementwise_binary_star_functor

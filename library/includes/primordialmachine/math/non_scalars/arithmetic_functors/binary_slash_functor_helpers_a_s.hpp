@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 

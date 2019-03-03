@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="package.props" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Quelldateien">
@@ -11,6 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\non_scalars_tests.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\index_1.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\index_2.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

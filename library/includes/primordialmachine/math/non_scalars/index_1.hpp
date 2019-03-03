@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Primordial Machine's Math Non Scalars Library
-// Copyright (c) 2019 Michael Heilmann
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -25,40 +25,19 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
-
 namespace primordialmachine {
 
-template<typename A>
-struct default_elementwise_unary_minus_functor<
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A>>>
+struct index_1
 {
-  using operand_type = A;
-  using result_type = A;
+private:
+  size_t m_i;
 
-  result_type operator()(const operand_type& a) const { return result_type(); }
-
-}; // struct default_elementwise_unary_minus_functor
-
-template<typename A>
-struct default_elementwise_unary_minus_functor<
-  A,
-  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A>>>
-{
-  using operand_type = A;
-  using result_type = A;
-
-  result_type operator()(const operand_type& a) const
-  {
-    return impl(a, make_element_indices<A>());
-  }
-
-  template<size_t... N>
-  constexpr auto impl(const operand_type& a, index_sequence<N...>) const
-  {
-    return result_type{ (-a(N))... };
-  }
-}; // struct default_elementwise_unary_minus_functor
+public:
+  constexpr index_1(size_t i) noexcept
+    : m_i(i)
+  {}
+  constexpr const size_t& i() const noexcept { return m_i; }
+  constexpr size_t& i() noexcept { return m_i; }
+}; // struct index_1
 
 } // namespace primordialmachine

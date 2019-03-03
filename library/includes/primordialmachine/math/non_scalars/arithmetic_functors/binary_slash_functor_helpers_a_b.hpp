@@ -25,23 +25,23 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 // You can use the following structs for matrices and vectors to ease the
-// implementation of the binary star operations.
-// For example, the implementation of matrix binary star operation using
+// implementation of the binary_slash operations.
+// For example, the implementation of matrix binary slash operation using
 // these structs reduces to:
 // clang-format off
 // template<typename M>
-// struct binary_star_functor<M, M, enable_if_t<is_matrix_v<M> ...>>
-// : public default_elementwise_binary_star_functor<M, M>
+// struct binary_slash_functor<M, M, enable_if_t<is_matrix_v<M> ...>>
+// : public default_elementwise_binary_slash_functor<M, M>
 // {};
 // clang-format on
 
 // The degenerated case.
 template<typename T>
-struct default_elementwise_binary_star_functor<
+struct default_elementwise_binary_slash_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
@@ -58,11 +58,11 @@ struct default_elementwise_binary_star_functor<
     return result_type();
   }
 
-}; // struct default_elementwise_binary_star_functor
+}; // struct default_elementwise_binary_slash_functor
 
 // The non-degenerated case.
 template<typename T>
-struct default_elementwise_binary_star_functor<
+struct default_elementwise_binary_slash_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
@@ -84,9 +84,9 @@ struct default_elementwise_binary_star_functor<
                       const right_operand_type& b,
                       index_sequence<N...>) const
   {
-    return result_type{ (a(N) * b(N))... };
+    return result_type{ (a(N) / b(N))... };
   }
 
-}; // struct default_elementwise_binary_star_functor
+}; // struct default_elementwise_binary_slash_functor
 
 } // namespace primordialmachine

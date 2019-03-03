@@ -25,47 +25,40 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 
-// Case of a *= b where a and b are of type T.
-// T is a degenerate non-scalar type.
-template<typename T>
-struct default_elementwise_star_assignment_functor<
-  T,
-  T,
-  enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
+template<typename A>
+struct default_elementwise_unary_minus_functor<
+  A,
+  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A>>>
 {
-  using left_operand_type = T;
-  using right_operand_type = T;
-  using result_type = T;
-  constexpr result_type& operator()(
-    left_operand_type& left_operand,
-    const right_operand_type& right_operand) const noexcept
-  {
-    return left_operand;
-  }
-}; // struct default_elementwise_minus_assignment_functor
+  using operand_type = A;
+  using result_type = A;
 
-// Case of a *= b where a and b are of type T.
-// T is a non-degenerate non-scalar type.
-template<typename T>
-struct default_elementwise_star_assignment_functor<
-  T,
-  T,
-  enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
+  result_type operator()(const operand_type& a) const { return result_type(); }
+
+}; // struct default_elementwise_unary_minus_functor
+
+template<typename A>
+struct default_elementwise_unary_minus_functor<
+  A,
+  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A>>>
 {
-  using left_operand_type = T;
-  using right_operand_type = T;
-  using result_type = T;
-  result_type& operator()(left_operand_type& left_operand,
-                          const right_operand_type& right_operand) const
-    noexcept(noexcept(left_operand = left_operand * right_operand))
+  using operand_type = A;
+  using result_type = A;
+
+  result_type operator()(const operand_type& a) const
   {
-    left_operand = left_operand * right_operand;
-    return left_operand;
+    return impl(a, make_element_indices<A>());
   }
-}; // struct default_elementwise_star_assignment_functor
+
+  template<size_t... N>
+  constexpr auto impl(const operand_type& a, index_sequence<N...>) const
+  {
+    return result_type{ (-a(N))... };
+  }
+}; // struct default_elementwise_unary_minus_functor
 
 } // namespace primordialmachine

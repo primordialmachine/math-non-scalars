@@ -25,47 +25,49 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 
-// Case of a += b where a and b are of type T.
-// T is a degenerate non-scalar type.
-template<typename T>
-struct default_elementwise_plus_assignment_functor<
-  T,
-  T,
-  enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
+// Case of a /= s where a is of type A and s is of type S.
+// A is a degenerate non-scalar type.
+// S is a scalar type.
+template<typename A, typename S>
+struct default_elementwise_slash_assignment_functor<
+  A,
+  S,
+  enable_if_t<is_non_scalar_v<A> && is_degenerate_v<A> && is_scalar_v<S>>>
 {
-  using left_operand_type = T;
-  using right_operand_type = T;
-  using result_type = T;
+  using left_operand_type = A;
+  using right_operand_type = S;
+  using result_type = A;
   constexpr result_type& operator()(
     left_operand_type& left_operand,
     const right_operand_type& right_operand) const noexcept
   {
     return left_operand;
   }
-}; // struct default_elementwise_plus_assignment_functor
+}; // struct default_elementwise_slash_assignment_functor
 
-// Case of a += b where a and b are of type T.
-// T is a non-degenerate non-scalar type.
-template<typename T>
-struct default_elementwise_plus_assignment_functor<
-  T,
-  T,
-  enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
+// Case of a /= s where a is of type A and s is of type S.
+// A is a non-degenerate non-scalar type.
+// S is a scalar type.
+template<typename A, typename S>
+struct default_elementwise_slash_assignment_functor<
+  A,
+  S,
+  enable_if_t<is_non_scalar_v<A> && is_non_degenerate_v<A> && is_scalar_v<S>>>
 {
-  using left_operand_type = T;
-  using right_operand_type = T;
-  using result_type = T;
+  using left_operand_type = A;
+  using right_operand_type = S;
+  using result_type = A;
   result_type& operator()(left_operand_type& left_operand,
                           const right_operand_type& right_operand) const
-    noexcept(noexcept(left_operand = left_operand + right_operand))
+    noexcept(noexcept(left_operand = left_operand / right_operand))
   {
-    left_operand = left_operand + right_operand;
+    left_operand = left_operand / right_operand;
     return left_operand;
   }
-}; // struct default_elementwise_plus_assignment_functor
+}; // struct default_elementwise_slash_assignment_functor
 
 } // namespace primordialmachine

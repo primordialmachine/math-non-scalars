@@ -25,59 +25,47 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
 
-// The case of a + b where a and b are of type T.
+// Case of a += b where a and b are of type T.
 // T is a degenerate non-scalar type.
 template<typename T>
-struct default_elementwise_binary_plus_functor<
+struct default_elementwise_plus_assignment_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
 {
   using left_operand_type = T;
-  
   using right_operand_type = T;
-  
   using result_type = T;
-
-  result_type operator()(const left_operand_type& a,
-                         const right_operand_type& b) const
+  constexpr result_type& operator()(
+    left_operand_type& left_operand,
+    const right_operand_type& right_operand) const noexcept
   {
-    return result_type();
+    return left_operand;
   }
-}; // struct default_elementwise_binary_plus_functor
+}; // struct default_elementwise_plus_assignment_functor
 
-// The case of a + b where a and b are of type T.
+// Case of a += b where a and b are of type T.
 // T is a non-degenerate non-scalar type.
 template<typename T>
-struct default_elementwise_binary_plus_functor<
+struct default_elementwise_plus_assignment_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
 {
   using left_operand_type = T;
-
   using right_operand_type = T;
-
   using result_type = T;
-
-  result_type operator()(const left_operand_type& a,
-                         const right_operand_type& b) const
+  result_type& operator()(left_operand_type& left_operand,
+                          const right_operand_type& right_operand) const
+    noexcept(noexcept(left_operand = left_operand + right_operand))
   {
-    return impl(a, b, make_element_indices<T>());
+    left_operand = left_operand + right_operand;
+    return left_operand;
   }
-
-  template<size_t... N>
-  constexpr auto impl(const left_operand_type& a,
-                      const right_operand_type& b,
-                      index_sequence<N...>) const
-  {
-    return result_type{ (a(N) + b(N))... };
-  }
-
-}; // struct default_elementwise_binary_plus_functor
+}; // struct default_elementwise_plus_assignment_functor
 
 } // namespace primordialmachine

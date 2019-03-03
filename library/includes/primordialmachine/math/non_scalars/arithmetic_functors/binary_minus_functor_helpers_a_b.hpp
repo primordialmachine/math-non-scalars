@@ -25,23 +25,14 @@
 
 #pragma once
 
-#include "primordialmachine/math/non_scalars/arithmetic_functors_helpers.hpp"
+#include "primordialmachine/math/non_scalars/arithmetic_functors/arithmetic_functors_helpers.hpp"
 
 namespace primordialmachine {
-// You can use the following structs for matrices and vectors to ease the
-// implementation of the binary_slash operations.
-// For example, the implementation of matrix binary slash operation using
-// these structs reduces to:
-// clang-format off
-// template<typename M>
-// struct binary_slash_functor<M, M, enable_if_t<is_matrix_v<M> ...>>
-// : public default_elementwise_binary_slash_functor<M, M>
-// {};
-// clang-format on
 
-// The degenerated case.
+// The case of a - b where a and b are of type T.
+// T is a degenerate non-scalar type.
 template<typename T>
-struct default_elementwise_binary_slash_functor<
+struct default_elementwise_binary_minus_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_degenerate_v<T>>>
@@ -49,30 +40,31 @@ struct default_elementwise_binary_slash_functor<
   using left_operand_type = T;
 
   using right_operand_type = T;
-
+  
   using result_type = T;
-
+  
   result_type operator()(const left_operand_type& a,
                          const right_operand_type& b) const
   {
     return result_type();
   }
 
-}; // struct default_elementwise_binary_slash_functor
+}; // struct default_elementwise_binary_minus_functor
 
-// The non-degenerated case.
+// The case of a - b where a and b are of type T.
+// T is a non-degenerate non-scalar type.
 template<typename T>
-struct default_elementwise_binary_slash_functor<
+struct default_elementwise_binary_minus_functor<
   T,
   T,
   enable_if_t<is_non_scalar_v<T> && is_non_degenerate_v<T>>>
 {
   using left_operand_type = T;
-
+  
   using right_operand_type = T;
-
+  
   using result_type = T;
-
+  
   result_type operator()(const left_operand_type& a,
                          const right_operand_type& b) const
   {
@@ -84,9 +76,9 @@ struct default_elementwise_binary_slash_functor<
                       const right_operand_type& b,
                       index_sequence<N...>) const
   {
-    return result_type{ (a(N) / b(N))... };
+    return result_type{ (a(N) - b(N))... };
   }
 
-}; // struct default_elementwise_binary_slash_functor
+}; // struct default_elementwise_binary_minus_functor
 
 } // namespace primordialmachine
